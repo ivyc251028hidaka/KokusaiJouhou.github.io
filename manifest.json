@@ -1,0 +1,19 @@
+{
+  "name": "ボランティア診断",
+  "short_name": "ボランティア診断",
+  "description": "日常の行動から、自分に合うボランティアタイプを見つける診断アプリ",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F7FBFA",
+  "theme_color": "#43A9A0",
+  "icons": [
+    {
+      "src": "images/hero-sample.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
