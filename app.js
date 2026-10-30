@@ -1,159 +1,146 @@
-// ========================================
-// ボランティア診断アプリのプログラム
-// ========================================
 
-// イラスト画像を使う場合は、各質問の illustration に
-// "images/q1.png" などのファイルパスを指定してください。
+// ========================================
+// ボランティア診断
+// Q1〜Q12の画像をimagesフォルダから読み込む
+// ========================================
 
 const questions = [
   {
     text: "友達がたくさんの荷物を持って歩いています。あなたならどうする？",
-    scene: "images/q1.png",
+    illustration: "images/q1.jpg",
     label: "荷物を持っている友達",
-    illustration: "images/画像1.png",
     choices: [
-      { text: "「持とうか？」と声をかけて、一緒に運ぶ", type: "A" },
-      { text: "「こっち持つよ！」とすぐに手伝い始める", type: "B" },
-      { text: "何を持てばいいか聞いて、運びやすいように分ける", type: "C" },
+      { text: "自分から声をかけて、一緒に運ぶ", type: "A" },
+      { text: "すぐに手伝い始める", type: "B" },
+      { text: "何を持てばいいか聞いて、手伝う", type: "C" },
       { text: "相手が大変そうか様子を見てから声をかける", type: "D" }
     ]
   },
   {
-    text: "友達が学校で困っていることを話してくれました。あなたならどうする？",
-    scene: "💬🧑‍🤝‍🧑",
+    text: "友達が学校のことで悩んでいると話してきました。あなたならどうする？",
+    illustration: "images/q2.jpg",
     label: "悩みを話す友達",
-    illustration: "images/q2.png",
     choices: [
-      { text: "話を最後まで聞いて、一緒に考える", type: "E" },
-      { text: "具体的にどうすればよいか提案する", type: "F" },
-      { text: "困っていることを整理して、順番に考える", type: "G" },
-      { text: "安心して話せるように、気持ちを受け止める", type: "H" }
+      { text: "身近な環境を教えたり、気分転換できる方法を提案する", type: "E" },
+      { text: "「こうしてみたら？」と伝える", type: "F" },
+      { text: "悩みを整理して、一つずつ考える", type: "G" },
+      { text: "相手が少しでも安心できるように話を聞く", type: "H" }
     ]
   },
   {
-    text: "グループ作業で、ひとりだけ作業が遅れている人がいます。あなたならどうする？",
-    scene: "🧑‍💻📚",
+    text: "グループで作業をしていて、一人だけ作業が遅れています。あなたならどうする？",
+    illustration: "images/q3.jpg",
     label: "みんなで取り組む作業",
-    illustration: "images/q3.png",
     choices: [
       { text: "「一緒にやろう」と声をかける", type: "A" },
-      { text: "自分にできることを見つけて、すぐ手伝う", type: "E" },
-      { text: "残っている作業を整理して、分担し直す", type: "B" },
-      { text: "まず何に困っているのかを聞く", type: "F" }
+      { text: "自分ができる作業を見つけて、すぐに手伝う", type: "E" },
+      { text: "アドバイスを考える", type: "B" },
+      { text: "その人が困っていることを聞いてから手伝う", type: "F" }
     ]
   },
   {
-    text: "新しく来た人が、まだ周りになじめていないようです。あなたならどうする？",
-    scene: "🏫👋",
-    label: "新しく来た人",
-    illustration: "images/q4.png",
+    text: "学校に転校生が来た。周りになじめるために、あなたならどうする？",
+    illustration: "images/q4.jpg",
+    label: "転校してきた人",
     choices: [
       { text: "自分から話しかけて、みんなの輪に誘う", type: "C" },
-      { text: "楽しい活動に誘って、一緒に過ごす", type: "G" },
-      { text: "学校や場所のルールなどを分かりやすく説明する", type: "D" },
-      { text: "相手のペースに合わせて、少しずつ話す", type: "H" }
+      { text: "楽しめそうなことに誘って、一緒に過ごす", type: "G" },
+      { text: "学校のことやルールを分かりやすく教える", type: "D" },
+      { text: "その人のペースに合わせながら関わりを持つ", type: "H" }
     ]
   },
   {
-    text: "家族が忙しそうにしています。あなたならどうする？",
-    scene: "🏠🧺",
+    text: "家族が忙しそうにしているとき、あなたはどうすることが多い？",
+    illustration: "images/q5.jpg",
     label: "忙しそうな家族",
-    illustration: "images/q5.png",
     choices: [
-      { text: "「何か手伝おうか？」と聞く", type: "A" },
-      { text: "自分にできることを見つけて行動する", type: "F" },
+      { text: "兄弟の面倒を進んで見る", type: "A" },
+      { text: "インターホンの対応をする", type: "F" },
       { text: "やることを整理して、効率よく進める", type: "C" },
-      { text: "何に困っているか考えて、必要なことを手伝う", type: "H" }
+      { text: "優先順位を考えて、手伝う", type: "H" }
     ]
   },
   {
-    text: "友達が宿題の問題を理解できずに困っています。あなたならどうする？",
-    scene: "✏️📖",
-    label: "宿題をする友達",
-    illustration: "images/q6.png",
+    text: "友達が勉強で分からないところがあると言っています。あなたならどうする？",
+    illustration: "images/q6.jpg",
+    label: "勉強で困っている友達",
     choices: [
       { text: "隣で一緒に問題を解いてみる", type: "B" },
-      { text: "ゲームや身近な例を使って、楽しく教える", type: "G" },
-      { text: "どこでつまずいたか確認し、順番に説明する", type: "D" },
-      { text: "相手のペースに合わせて、ゆっくり教える", type: "E" }
+      { text: "ゲームや例えを使って楽しく教える", type: "G" },
+      { text: "どこが分からないのか確認して、説明する", type: "D" },
+      { text: "相手のペースに合わせてゆっくり教える", type: "E" }
     ]
   },
   {
-    text: "地域のイベント準備がなかなか進んでいません。あなたならどうする？",
-    scene: "🎪📦",
-    label: "イベントの準備",
-    illustration: "images/q7.png",
+    text: "みんなで地域のイベントの準備をしています。作業がなかなか進みません。あなたならどうする？",
+    illustration: "images/q7.jpg",
+    label: "地域イベントの準備",
     choices: [
-      { text: "みんなに声をかけて、まず始めようと促す", type: "A" },
-      { text: "楽しく進められる工夫をして、みんなを盛り上げる", type: "H" },
-      { text: "必要な作業を書き出して、順番に進める", type: "E" },
+      { text: "「みんなでやろう！」と声をかけて働き始める", type: "A" },
+      { text: "楽しくできる方法を考えて、みんなを盛り上げる", type: "H" },
+      { text: "やることを書き出して、順番に進める", type: "E" },
       { text: "それぞれが無理なくできる仕事を考える", type: "F" }
     ]
   },
   {
-    text: "電車やバスで、立っている年配の人の近くで席が空きました。あなたならどうする？",
-    scene: "🚌💺",
+    text: "電車やバスで、年配の人が立っています。席が空いたらどうする？",
+    illustration: "images/q8.jpg",
     label: "バスや電車の座席",
-    illustration: "images/q8.png",
     choices: [
-      { text: "「どうぞ」と席を譲る", type: "B" },
-      { text: "すぐに立ち上がって、席を譲る", type: "C" },
-      { text: "周りを確認して、安全に座れるようにする", type: "D" },
-      { text: "席が必要そうか様子を見てから声をかける", type: "G" }
+      { text: "「どうぞ」と声をかける", type: "B" },
+      { text: "すぐに立って席を譲る", type: "C" },
+      { text: "相手が笑顔になれるように、明るく優しく声をかける", type: "D" },
+      { text: "必要か様子を見てから声をかける", type: "G" }
     ]
   },
   {
-    text: "友達が発表の前日に「緊張する」と話しています。あなたならどうする？",
-    scene: "🎤😟",
+    text: "学校で友達がみんなの前で発表することになり、前日に「緊張する」と相談してきた。あなたならどうする？",
+    illustration: "images/q9.jpg",
     label: "発表を前に緊張する友達",
-    illustration: "",
     choices: [
-      { text: "「大丈夫だよ」と励ます", type: "A" },
-      { text: "一緒に練習して、楽しい雰囲気にする", type: "F" },
-      { text: "発表する内容を整理して、準備を手伝う", type: "D" },
-      { text: "不安な気持ちを聞いて、落ち着けるようにする", type: "H" }
+      { text: "「大丈夫！」と声をかけて元気づける", type: "A" },
+      { text: "一緒に練習して発表を盛り上げる", type: "F" },
+      { text: "内容を一緒に整理する", type: "D" },
+      { text: "気持ちを聞いて落ち着けるようにする", type: "H" }
     ]
   },
   {
-    text: "グループで誕生日会を準備します。あなたならどうする？",
-    scene: "🎂🎈",
+    text: "友達の誕生日会をみんなで準備することになりました。あなたは何をする？",
+    illustration: "images/q10.jpg",
     label: "誕生日会の準備",
-    illustration: "",
     choices: [
-      { text: "みんなに声をかけて、準備を手伝ってもらう", type: "B" },
-      { text: "サプライズや楽しい企画を考える", type: "E" },
-      { text: "必要なものや予定を整理する", type: "C" },
-      { text: "主役が何をしたら喜ぶか考える", type: "G" }
+      { text: "みんなに声をかけて、準備を進める", type: "A" },
+      { text: "サプライズや楽しい企画を考える", type: "B" },
+      { text: "ゴミを減らせる飾りや、繰り返し使える道具を選ぶ", type: "E" },
+      { text: "外国の料理や遊びを紹介して、みんなで楽しめるようにする", type: "F" }
     ]
   },
   {
-    text: "道で道に迷って困っている人を見かけました。あなたならどうする？",
-    scene: "🗺️🚶",
+    text: "友達と街を歩いていて、道に迷っている人を見かけました。あなたならどうする？",
+    illustration: "images/q11.jpg",
     label: "道に迷っている人",
-    illustration: "",
     choices: [
-      { text: "自分から話しかけて、道を案内する", type: "A" },
-      { text: "地図を一緒に見ながら場所を確認する", type: "G" },
-      { text: "行き先や道順を調べて、分かりやすく説明する", type: "D" },
-      { text: "困っていそうか様子を見て、必要なら声をかける", type: "F" }
+      { text: "道案内の看板や周辺の様子を確認し、分かりやすい道を探す", type: "A" },
+      { text: "一緒に地図を見ながら目的地を探す", type: "G" },
+      { text: "場所や行き方を調べて、分かりやすく説明する", type: "D" },
+      { text: "相手が困っている様子を見ながら、必要なら声をかける", type: "F" }
     ]
   },
   {
-    text: "誰かのために何かをするとき、あなたが大切にしたいことは？",
-    scene: "💗🤲",
+    text: "誰かのために何かをするとき、あなたはどんなことを大切にする？",
+    illustration: "images/q12.jpg",
     label: "誰かを思いやる気持ち",
-    illustration: "",
     choices: [
-      { text: "周りの人にも声をかけて、協力して取り組む", type: "B" },
-      { text: "相手が喜んだり、笑顔になったりすること", type: "H" },
+      { text: "自然や環境を大切にし、みんなが気持ちよく過ごせる場所を作ること", type: "E" },
+      { text: "相手が楽しんだり、笑顔になったりすること", type: "B" },
       { text: "必要なことを整理して、役に立つこと", type: "C" },
-      { text: "相手の気持ちや状況を考えること", type: "E" }
+      { text: "相手の気持ちや状況を考えて行動すること", type: "H" }
     ]
   }
 ];
 
 // ========================================
-// 診断結果のタイプ情報
+// 診断タイプ
 // ========================================
 
 const types = {
@@ -211,7 +198,7 @@ const types = {
     emoji: "🧰",
     description: "状況を見て必要なことを考え、落ち着いて支えることが強みになりそう。安全や準備を意識して、チームで動く活動が向いていそう。",
     features: ["状況を見て行動できる", "準備や確認を大切にする", "困っている人を支えたい"],
-    volunteer: "防災イベント、支援物資の整理、復興支援活動（募集条件を確認）"
+    volunteer: "防災イベント、支援物資の整理、復興支援活動"
   },
   H: {
     name: "医療・福祉タイプ",
@@ -223,7 +210,6 @@ const types = {
   }
 };
 
-// グラフ・棒グラフ用の短い表示名
 const shortTypeNames = {
   A: "イベント",
   B: "子ども",
@@ -235,87 +221,10 @@ const shortTypeNames = {
   H: "医療"
 };
 
-// 選んだタイプに加点する関連タイプ
-const relatedType = {
-  A: "F",
-  B: "H",
-  C: "B",
-  D: "C",
-  E: "G",
-  F: "A",
-  G: "E",
-  H: "B"
-};
-
 // ========================================
-// 診断結果ごとの活動紹介リンク
+// Q13：やってみたいボランティア
 // ========================================
 
-const typeLinks = {
-  A: [
-    {
-      title: "イベント・地域活動のボランティアって？",
-      desc: "スポーツや地域交流の場、イベント運営など、みんなで場をつくる活動の例を紹介しています。",
-      url: "https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
-    }
-  ],
-  B: [
-    {
-      title: "子どもと関わるボランティアって？",
-      desc: "子どもの遊びやレクリエーション、スポーツ教室、キャンプのサポートなどの活動例を紹介しています。",
-      url: "https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
-    }
-  ],
-  C: [
-    {
-      title: "学習・教育を支えるボランティアって？",
-      desc: "学習ボランティアや教育活動への協力など、誰かの学びを支える活動例を紹介しています。",
-      url: "https://csw-kawasaki.or.jp/volunteer-info/volunteer-pr/kind-volunteer/"
-    }
-  ],
-  D: [
-    {
-      title: "パソコン・広報など得意なことを活かす活動",
-      desc: "パソコンの操作支援や広報づくり、技術・特技を活かしたボランティアの例を紹介しています。",
-      url: "https://csw-kawasaki.or.jp/volunteer-info/volunteer-pr/kind-volunteer/"
-    }
-  ],
-  E: [
-    {
-      title: "環境・美化のボランティアって？",
-      desc: "海辺や森林の清掃、リサイクル、自然環境を守る活動などの例を紹介しています。",
-      url: "https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
-    }
-  ],
-  F: [
-    {
-      title: "文化・国際交流のボランティアって？",
-      desc: "美術館・博物館での活動や伝統文化の継承、外国の人への支援などの例を紹介しています。",
-      url: "https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
-    }
-  ],
-  G: [
-    {
-      title: "災害・復興支援のボランティアって？",
-      desc: "被災地の片づけや困りごとの支援、物資の仕分けなど、災害時・復旧時の活動例を紹介しています。",
-      url: "https://www.gov-online.go.jp/article/201909/entry-8761.html"
-    }
-  ],
-  H: [
-    {
-      title: "病院ボランティアってどんなことをするの？",
-      desc: "病院内の案内、車いすでの移動のお手伝い、患者さんやご家族のサポートなど、医療現場での活動例を紹介しています。",
-      url: "https://www.toyotachiiki-mc.or.jp/volunteer/"
-    },
-    {
-      title: "高齢者・障がいのある人を支える活動例",
-      desc: "見守りや話し相手、交流の場づくり、移動の補助など、福祉分野の活動例も確認できます。",
-      url: "https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
-    }
-  ]
-};
-
-// Q13の選択肢。診断スコアには加算しない。
 const interestOptions = [
   { type: "A", emoji: "🎪", text: "イベント運営・会場づくり" },
   { type: "B", emoji: "😊", text: "子どもと遊ぶ・人と交流する" },
@@ -327,8 +236,58 @@ const interestOptions = [
   { type: "H", emoji: "🫶", text: "高齢者や支援が必要な人と関わる" }
 ];
 
+const typeLinks = {
+  A: [{
+    title: "イベント・地域活動のボランティア",
+    desc: "スポーツや地域交流の場、イベント運営などの活動例。",
+    url: "https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
+  }],
+  B: [{
+    title: "子どもと関わるボランティア",
+    desc: "子どもの遊びやレクリエーションなどの活動例。",
+    url: "https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
+  }],
+  C: [{
+    title: "学習・教育を支えるボランティア",
+    desc: "学習ボランティアや教育活動への協力など。",
+    url: "https://csw-kawasaki.or.jp/volunteer-info/volunteer-pr/kind-volunteer/"
+  }],
+  D: [{
+    title: "パソコン・広報などを活かす活動",
+    desc: "パソコンの操作支援や広報づくりなど。",
+    url: "https://csw-kawasaki.or.jp/volunteer-info/volunteer-pr/kind-volunteer/"
+  }],
+  E: [{
+    title: "環境・美化のボランティア",
+    desc: "清掃やリサイクル、自然環境を守る活動など。",
+    url: "https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
+  }],
+  F: [{
+    title: "文化・国際交流のボランティア",
+    desc: "地域文化の継承や外国の人との交流など。",
+    url: "https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
+  }],
+  G: [{
+    title: "災害・復興支援のボランティア",
+    desc: "支援物資の整理や復興支援活動など。",
+    url: "https://www.gov-online.go.jp/article/201909/entry-8761.html"
+  }],
+  H: [
+    {
+      title: "病院ボランティア",
+      desc: "病院内の案内や患者さんのサポートなど。",
+      url: "https://www.toyotachiiki-mc.or.jp/volunteer/"
+    },
+    {
+      title: "高齢者・障がいのある人を支える活動",
+      desc: "交流や見守り、福祉分野の活動例。",
+      url: "https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
+    }
+  ]
+};
+
 // ========================================
-// アプリの状態
+// 画面の状態
 // ========================================
 
 let currentIndex = 0;
@@ -337,26 +296,21 @@ let selectedInterest = null;
 
 const $ = id => document.getElementById(id);
 
-// 画面を切り替える
 function showScreen(id) {
-  ["start-screen", "quiz-screen", "interest-screen", "result-screen"]
-    .forEach(screenId => {
-      $(screenId).classList.toggle("hidden", screenId !== id);
-    });
-
+  ["start-screen", "quiz-screen", "interest-screen", "result-screen"].forEach(x => {
+    $(x).classList.toggle("hidden", x !== id);
+  });
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 // ========================================
-// 質問画面
+// 質問画面の表示
 // ========================================
 
 function renderQuestion() {
   const q = questions[currentIndex];
 
-  $("step-label").textContent =
-    `Q${currentIndex + 1} / ${questions.length}`;
-
+  $("step-label").textContent = `Q${currentIndex + 1} / ${questions.length}`;
   $("step-percent").textContent =
     `${Math.round((currentIndex + 1) / questions.length * 100)}%`;
 
@@ -364,39 +318,39 @@ function renderQuestion() {
     `${(currentIndex + 1) / questions.length * 100}%`;
 
   $("question-text").textContent = q.text;
-  $("scene-emoji").textContent = q.scene;
-  $("scene-label").textContent = q.label;
 
+  // 画像を表示する
   const inner = $("illustration-inner");
-  const oldImage = inner.querySelector("img");
+  inner.innerHTML = "";
 
-  if (oldImage) {
-    oldImage.remove();
-  }
+  const img = document.createElement("img");
+  img.src = q.illustration;
+  img.alt = q.label;
+  img.className = "question-image";
 
-  if (q.illustration) {
-    const img = document.createElement("img");
-    img.src = q.illustration;
-    img.alt = q.label;
-    img.onerror = () => img.remove();
-    inner.appendChild(img);
-  }
+  img.onerror = () => {
+    inner.innerHTML =
+      `<div class="scene-label">画像が見つかりません：${q.illustration}</div>`;
+  };
 
+  inner.appendChild(img);
+
+  // 回答ボタンを作る
   $("choices").innerHTML = "";
 
   q.choices.forEach((choice, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
+    const b = document.createElement("button");
 
-    button.className =
+    b.type = "button";
+    b.className =
       "choice" + (answers[currentIndex] === index ? " selected" : "");
 
-    button.setAttribute(
+    b.setAttribute(
       "aria-pressed",
       answers[currentIndex] === index ? "true" : "false"
     );
 
-    button.innerHTML = `
+    b.innerHTML = `
       <span class="choice-text"></span>
       <span class="heart" aria-hidden="true">
         <svg viewBox="0 0 32 32">
@@ -405,14 +359,14 @@ function renderQuestion() {
       </span>
     `;
 
-    button.querySelector(".choice-text").textContent = choice.text;
+    b.querySelector(".choice-text").textContent = choice.text;
 
-    button.addEventListener("click", () => {
+    b.addEventListener("click", () => {
       answers[currentIndex] = index;
       renderQuestion();
     });
 
-    $("choices").appendChild(button);
+    $("choices").appendChild(b);
   });
 
   $("back-btn").disabled = currentIndex === 0;
@@ -425,46 +379,44 @@ function renderQuestion() {
 }
 
 // ========================================
-// Q13：やってみたい活動
+// Q13の表示
 // ========================================
 
 function renderInterests() {
   $("interest-grid").innerHTML = "";
 
-  interestOptions.forEach(option => {
-    const button = document.createElement("button");
-    button.type = "button";
+  interestOptions.forEach(o => {
+    const b = document.createElement("button");
+    b.type = "button";
 
-    button.className =
-      "interest-option" +
-      (selectedInterest === option.type ? " selected" : "");
+    b.className =
+      "interest-option" + (selectedInterest === o.type ? " selected" : "");
 
-    button.setAttribute(
+    b.setAttribute(
       "aria-pressed",
-      selectedInterest === option.type ? "true" : "false"
+      selectedInterest === o.type ? "true" : "false"
     );
 
-    const emoji = document.createElement("span");
-    emoji.textContent = option.emoji;
+    const s = document.createElement("span");
+    s.textContent = o.emoji;
 
-    const text = document.createElement("div");
-    text.textContent = option.text;
+    const t = document.createElement("div");
+    t.textContent = o.text;
 
-    button.append(emoji, text);
+    b.append(s, t);
 
-    button.addEventListener("click", () => {
-      selectedInterest =
-        selectedInterest === option.type ? null : option.type;
-
+    b.addEventListener("click", () => {
+      selectedInterest = selectedInterest === o.type ? null : o.type;
       renderInterests();
     });
 
-    $("interest-grid").appendChild(button);
+    $("interest-grid").appendChild(b);
   });
 }
 
 // ========================================
-// 採点処理
+// 点数計算
+// 選んだ回答に1点だけ加算
 // ========================================
 
 function calculateScores() {
@@ -473,22 +425,16 @@ function calculateScores() {
     E: 0, F: 0, G: 0, H: 0
   };
 
-  answers.forEach((answer, index) => {
+  answers.forEach((answer, i) => {
     if (answer === null) return;
 
-    const type = questions[index].choices[answer].type;
-
-    // 選んだタイプに2点
-    scores[type] += 2;
-
-    // 関連するタイプに1点
-    scores[relatedType[type]] += 1;
+    const type = questions[i].choices[answer].type;
+    scores[type] += 1;
   });
 
   return scores;
 }
 
-// 最も点数の高いタイプを取得
 function getWinningType(scores) {
   return Object.keys(scores)
     .sort((a, b) => scores[b] - scores[a])[0];
@@ -499,103 +445,82 @@ function getWinningType(scores) {
 // ========================================
 
 function drawRadar(scores) {
-  const canvas = $("radar-chart");
-  const ctx = canvas.getContext("2d");
+  const c = $("radar-chart");
+  const ctx = c.getContext("2d");
 
-  const width = 440;
-  const height = 400;
+  const w = 440;
+  const h = 400;
   const dpr = window.devicePixelRatio || 1;
 
-  canvas.width = width * dpr;
-  canvas.height = height * dpr;
+  c.width = w * dpr;
+  c.height = h * dpr;
 
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.clearRect(0, 0, width, height);
+  ctx.clearRect(0, 0, w, h);
 
   const keys = Object.keys(scores);
-  const centerX = width / 2;
-  const centerY = height / 2 + 3;
+  const cx = w / 2;
+  const cy = h / 2 + 3;
   const radius = 116;
 
-  const maxScore = Math.max(6, ...Object.values(scores));
-  const scale = Math.ceil(maxScore / 3) * 3;
+  const max = Math.max(6, ...Object.values(scores));
+  const scale = Math.ceil(max / 3) * 3;
 
-  function point(index, distance) {
-    const angle = -Math.PI / 2 + index * 2 * Math.PI / 8;
+  const point = (i, r) => ({
+    x: cx + Math.cos(-Math.PI / 2 + i * 2 * Math.PI / 8) * r,
+    y: cy + Math.sin(-Math.PI / 2 + i * 2 * Math.PI / 8) * r
+  });
 
-    return {
-      x: centerX + Math.cos(angle) * distance,
-      y: centerY + Math.sin(angle) * distance
-    };
-  }
-
-  // 目盛りの八角形
+  // 目盛り
   for (let ring = 1; ring <= 4; ring++) {
     ctx.beginPath();
 
-    keys.forEach((key, index) => {
-      const p = point(index, radius * ring / 4);
-
-      if (index === 0) {
-        ctx.moveTo(p.x, p.y);
-      } else {
-        ctx.lineTo(p.x, p.y);
-      }
+    keys.forEach((_, i) => {
+      const p = point(i, radius * ring / 4);
+      i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y);
     });
 
     ctx.closePath();
-    ctx.strokeStyle = "#cfe1ec";
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#eadfe8";
     ctx.stroke();
   }
 
-  // 中心から伸びる線と項目名
-  keys.forEach((key, index) => {
-    const p = point(index, radius);
+  // 軸とタイプ名
+  keys.forEach((key, i) => {
+    const p = point(i, radius);
 
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
+    ctx.moveTo(cx, cy);
     ctx.lineTo(p.x, p.y);
-    ctx.strokeStyle = "#cfe1ec";
+    ctx.strokeStyle = "#eadfe8";
     ctx.stroke();
 
-    const labelPoint = point(index, radius + 26);
+    const lp = point(i, radius + 26);
 
-    ctx.fillStyle = "#4d5872";
-    ctx.font = "bold 12px Yu Gothic, sans-serif";
+    ctx.fillStyle = "#5d5360";
+    ctx.font = "12px Yu Gothic, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-
-    ctx.fillText(
-      shortTypeNames[key] || key,
-      labelPoint.x,
-      labelPoint.y
-    );
+    ctx.fillText(shortTypeNames[key], lp.x, lp.y);
   });
 
-  // スコアを結んだ図形
+  // スコアの形
   ctx.beginPath();
 
-  keys.forEach((key, index) => {
-    const p = point(index, radius * scores[key] / scale);
-
-    if (index === 0) {
-      ctx.moveTo(p.x, p.y);
-    } else {
-      ctx.lineTo(p.x, p.y);
-    }
+  keys.forEach((key, i) => {
+    const p = point(i, radius * scores[key] / scale);
+    i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y);
   });
 
   ctx.closePath();
-  ctx.fillStyle = "rgba(241, 142, 175, .3)";
+  ctx.fillStyle = "rgba(241,142,175,.3)";
   ctx.strokeStyle = "#dd789d";
   ctx.lineWidth = 2.5;
   ctx.fill();
   ctx.stroke();
 
-  // 各点に丸を描く
-  keys.forEach((key, index) => {
-    const p = point(index, radius * scores[key] / scale);
+  keys.forEach((key, i) => {
+    const p = point(i, radius * scores[key] / scale);
 
     ctx.beginPath();
     ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
@@ -605,7 +530,7 @@ function drawRadar(scores) {
 }
 
 // ========================================
-// 診断結果画面
+// 診断結果の表示
 // ========================================
 
 function renderResult() {
@@ -618,28 +543,26 @@ function renderResult() {
   $("result-description").textContent = type.description;
   $("result-character").textContent = type.emoji;
 
-  // 向いている人の特徴
   $("feature-list").innerHTML = "";
 
-  type.features.forEach(feature => {
+  type.features.forEach(x => {
     const li = document.createElement("li");
-    li.textContent = feature;
+    li.textContent = x;
     $("feature-list").appendChild(li);
   });
 
-  // 棒グラフ形式でポイントを表示
   $("score-list").innerHTML = "";
 
-  const maxScore = Math.max(1, ...Object.values(scores));
+  const max = Math.max(1, ...Object.values(scores));
 
   Object.entries(scores).forEach(([key, score]) => {
     const row = document.createElement("div");
     row.className = "score-row";
 
     row.innerHTML = `
-      <strong>${shortTypeNames[key] || key}</strong>
+      <strong>${shortTypeNames[key]}</strong>
       <div class="score-track">
-        <div class="score-bar" style="width:${score / maxScore * 100}%"></div>
+        <div class="score-bar" style="width:${score / max * 100}%"></div>
       </div>
       <span>${score}点</span>
     `;
@@ -647,30 +570,21 @@ function renderResult() {
     $("score-list").appendChild(row);
   });
 
-  // Q13の回答を表示
   const selected = interestOptions.find(
-    option => option.type === selectedInterest
+    x => x.type === selectedInterest
   );
 
   const note = $("interest-note").value.trim();
 
-  if (selected) {
-    $("interest-result").textContent =
-      `${selected.emoji} ${selected.text}` +
-      (note ? `／補足：${note}` : "");
-  } else {
-    $("interest-result").textContent =
-      note || "まだ選択されていません。気になる活動から探してみよう。";
-  }
+  $("interest-result").textContent = selected
+    ? `${selected.emoji} ${selected.text}${note ? "／補足：" + note : ""}`
+    : (note || "まだ選択されていません。気になる活動から探してみよう。");
 
-  // おすすめ活動
   $("recommended-result").textContent =
     `${type.emoji} ${type.name}：${type.volunteer}`;
 
-  // 結果タイプに合った活動紹介リンク
   $("type-links-intro").textContent =
-    `「${type.name}」に関連する活動紹介ページだよ。` +
-    `${type.volunteer}などに興味があれば、リンク先で内容を確認してみてね。`;
+    `「${type.name}」に関連する活動紹介ページだよ。${type.volunteer}などに興味があれば、リンク先で内容を確認してみてね。`;
 
   $("type-links").innerHTML = "";
 
@@ -682,9 +596,9 @@ function renderResult() {
     const title = document.createElement("strong");
     title.textContent = item.title;
 
-    const description = document.createElement("p");
-    description.style.margin = "5px 0 7px";
-    description.textContent = item.desc;
+    const desc = document.createElement("p");
+    desc.style.margin = "5px 0 7px";
+    desc.textContent = item.desc;
 
     const link = document.createElement("a");
     link.href = item.url;
@@ -692,7 +606,7 @@ function renderResult() {
     link.rel = "noopener noreferrer";
     link.textContent = "詳しく見る ↗";
 
-    box.append(title, description, link);
+    box.append(title, desc, link);
     $("type-links").appendChild(box);
   });
 
@@ -704,14 +618,12 @@ function renderResult() {
 // ボタンの動作
 // ========================================
 
-// 診断スタート
 $("start-btn").addEventListener("click", () => {
   currentIndex = 0;
   renderQuestion();
   showScreen("quiz-screen");
 });
 
-// 前の質問に戻る
 $("back-btn").addEventListener("click", () => {
   if (currentIndex > 0) {
     currentIndex--;
@@ -719,7 +631,6 @@ $("back-btn").addEventListener("click", () => {
   }
 });
 
-// 次の質問へ進む
 $("next-btn").addEventListener("click", () => {
   if (answers[currentIndex] === null) return;
 
@@ -732,17 +643,14 @@ $("next-btn").addEventListener("click", () => {
   }
 });
 
-// Q13から質問12に戻る
 $("interest-back-btn").addEventListener("click", () => {
   currentIndex = questions.length - 1;
   renderQuestion();
   showScreen("quiz-screen");
 });
 
-// 診断結果を表示
 $("show-result-btn").addEventListener("click", renderResult);
 
-// 最初からやり直す
 $("restart-btn").addEventListener("click", () => {
   currentIndex = 0;
   answers.fill(null);
@@ -751,12 +659,10 @@ $("restart-btn").addEventListener("click", () => {
   showScreen("start-screen");
 });
 
-// 結果を印刷
 $("print-btn").addEventListener("click", () => {
   window.print();
 });
 
-// 画面サイズ変更時にレーダーチャートを再描画
 window.addEventListener("resize", () => {
   if (!$("result-screen").classList.contains("hidden")) {
     drawRadar(calculateScores());

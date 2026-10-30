@@ -15,17 +15,16 @@
 
 body {
   margin: 0;
+  min-height: 100vh;
+  font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
   background:
     radial-gradient(ellipse at 0% 100%, rgba(176,230,255,.72) 0 7%, transparent 7.2%),
     radial-gradient(ellipse at 100% 100%, rgba(255,239,184,.55) 0 8%, transparent 8.2%),
     linear-gradient(180deg, #d9f3ff 0, #d9f3ff 108px, #fffdf8 108px, #fffdf8 100%);
   color: var(--ink);
-  font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-  line-height: 1.7;
 }
 
-button,
-textarea {
+button, textarea {
   font: inherit;
 }
 
@@ -33,10 +32,14 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 .app {
   width: min(100% - 28px, 760px);
-  margin: auto;
-  padding: 0 0 44px;
+  margin: 0 auto;
+  padding-top: 0;
 }
 
 .brand {
@@ -69,13 +72,11 @@ button {
   color: #4296cb;
   margin: 0;
   font-size: clamp(1.35rem, 4vw, 1.8rem);
-  letter-spacing: .06em;
 }
 
 .brand p {
   color: #4d9dcc;
-  margin: 0;
-  font-size: .9rem;
+  margin: 5px 0 0;
 }
 
 .brand::after {
@@ -88,21 +89,46 @@ button {
 }
 
 .panel {
-  padding: clamp(16px, 3.8vw, 28px);
   background: rgba(255,255,255,.76);
   border: 0;
   border-radius: 24px;
   box-shadow: none;
+  padding: clamp(16px, 3.8vw, 28px);
+  margin-bottom: 24px;
+}
+
+.panel h2 {
+  line-height: 1.6;
 }
 
 .hidden {
   display: none !important;
 }
 
-h2 {
-  font-size: clamp(1.15rem, 3.5vw, 1.45rem);
-  line-height: 1.55;
-  margin: 0 0 15px;
+.eyebrow {
+  display: flex;
+  justify-content: space-between;
+  color: #4e9ed1;
+  font-size: .88rem;
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+
+.progress {
+  background: #fff;
+  border: 1px solid #d6efff;
+  height: 13px;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #65b9e9, #b5e6ff);
+  border-radius: inherit;
+  transition: width .25s;
 }
 
 .question-text {
@@ -114,7 +140,7 @@ h2 {
 }
 
 .question-text::before {
-  content: "Q";
+  content: "Q" attr(data-question);
   position: absolute;
   left: 0;
   top: 50%;
@@ -131,33 +157,8 @@ h2 {
   letter-spacing: .02em;
 }
 
-.eyebrow {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  color: #4e9ed1;
-  font-size: .88rem;
-  font-weight: 700;
-}
-
-.progress {
-  height: 13px;
-  background: #fff;
-  border: 1px solid #d6efff;
-  border-radius: 99px;
-  overflow: hidden;
-  margin: 9px 0 20px;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #65b9e9, #b5e6ff);
-  transition: width .2s;
-}
-
 .illustration-frame {
   width: min(100%, 540px);
-  aspect-ratio: 1;
   margin: 8px auto 20px;
   padding: 0;
   background: transparent;
@@ -166,14 +167,14 @@ h2 {
 }
 
 .illustration-inner {
-  width: 100%;
-  height: 100%;
   position: relative;
-  overflow: hidden;
+  min-height: 220px;
+  aspect-ratio: 1.5 / 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  overflow: hidden;
   border-radius: 30% 28% 26% 25% / 26% 25% 30% 28%;
   background:
     radial-gradient(ellipse at 50% 45%, rgba(201,236,255,.92), rgba(222,244,255,.65) 47%, transparent 72%),
@@ -181,6 +182,28 @@ h2 {
     radial-gradient(ellipse at 78% 74%, rgba(220,239,187,.8), transparent 34%),
     linear-gradient(180deg, #fffdf8, #fffaf5);
   color: #6f8ca0;
+}
+
+.illustration-inner::before,
+.illustration-inner::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: #ffffff55;
+}
+
+.illustration-inner::before {
+  width: 140px;
+  height: 140px;
+  top: -35px;
+  right: -30px;
+}
+
+.illustration-inner::after {
+  width: 120px;
+  height: 120px;
+  bottom: -30px;
+  left: -20px;
 }
 
 .scene-emoji {
@@ -192,6 +215,7 @@ h2 {
 }
 
 .scene-label {
+  position: relative;
   z-index: 1;
   margin-top: 10px;
   font-size: .9rem;
@@ -237,18 +261,21 @@ h2 {
 }
 
 .choice.selected {
-  border-color: var(--pink-dark);
-  background: #fff2f8;
+  border-color: #ffafd0;
+  background: #fff4f8;
 }
 
 .choice-text {
-  font-size: .97rem;
-  overflow-wrap: anywhere;
+  font-size: clamp(.9rem, 2.6vw, 1.08rem);
+  font-weight: 700;
 }
 
 .heart {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #e4edf4;
+  background: #fff;
   display: grid;
   place-items: center;
   justify-self: end;
@@ -261,15 +288,20 @@ h2 {
 
 .heart path {
   fill: transparent;
-  stroke: #39343a;
-  stroke-width: 1.8;
+  stroke: #b7bdc5;
+  stroke-width: 2.1;
   stroke-linejoin: round;
   transition: fill .18s, stroke .18s;
 }
 
+.choice.selected .heart {
+  border-color: #ffd0e2;
+  background: #fff8fb;
+}
+
 .choice.selected .heart path {
-  fill: #f18eaf;
-  stroke: #d85f8a;
+  fill: #f65391;
+  stroke: #f65391;
 }
 
 .choice.selected .choice-text {
@@ -293,8 +325,8 @@ h2 {
 
 .btn-primary {
   color: white;
-  background: linear-gradient(110deg, #ed94b3, #c49ce9);
-  box-shadow: 0 5px 13px #cd89ae38;
+  background: linear-gradient(110deg, #65b8e9, #9edcff);
+  box-shadow: 0 5px 13px rgba(93,174,221,.18);
 }
 
 .btn-primary:disabled {
@@ -304,12 +336,11 @@ h2 {
 }
 
 .btn-ghost {
-  color: #655a67;
-  background: #f7f1f5;
+  color: #4d8fb8;
+  background: #edf8ff;
 }
 
-
-.small {
+.hint, .small {
   font-size: .83rem;
   color: var(--muted);
 }
@@ -339,7 +370,7 @@ textarea:focus {
 
 .interest-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
+  grid-template-columns: repeat(2,minmax(0,1fr));
   gap: 10px;
 }
 
@@ -353,8 +384,8 @@ textarea:focus {
 }
 
 .interest-option.selected {
-  border-color: var(--pink-dark);
-  background: #fff2f7;
+  border-color: #ff9fc5;
+  background: #fff2f8;
 }
 
 .interest-option span {
@@ -363,7 +394,7 @@ textarea:focus {
 }
 
 .result-title {
-  color: var(--pink-dark);
+  color: #459bd0;
   font-size: clamp(1.5rem, 5vw, 2.1rem);
   margin: 0;
 }
@@ -383,7 +414,7 @@ textarea:focus {
 .result-character {
   min-height: 190px;
   border-radius: 22px;
-  background: linear-gradient(145deg, #fff2f6, #f1efff, #eff9f3);
+  background: linear-gradient(145deg, #e5f7ff, #fff1f7, #f7f8dc);
   display: grid;
   place-items: center;
   font-size: 6rem;
@@ -405,7 +436,7 @@ textarea:focus {
 .feature-list li {
   padding: 6px 11px;
   border-radius: 999px;
-  background: #f7f0fb;
+  background: #eff8ff;
   font-size: .9rem;
 }
 
@@ -413,7 +444,7 @@ textarea:focus {
   display: grid;
   gap: 13px;
   padding: 15px;
-  background: linear-gradient(135deg, #fff9fb, #faf7ff);
+  background: linear-gradient(135deg,#fff9fb,#faf7ff);
   border: 1px solid #f0e3eb;
   border-radius: 18px;
 }
@@ -444,7 +475,7 @@ textarea:focus {
   height: 100%;
   min-width: 3px;
   border-radius: inherit;
-  background: linear-gradient(90deg, #f18eaf, #b99ae8);
+  background: linear-gradient(90deg,#f18eaf,#b99ae8);
   box-shadow: 0 1px 3px #a66b8c33;
   transition: width .35s;
 }
@@ -455,6 +486,26 @@ textarea:focus {
   text-align: right;
   color: #655466;
   font-variant-numeric: tabular-nums;
+}
+
+@media(max-width:420px) {
+  .score-list {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .score-row {
+    grid-template-columns: 68px minmax(0,1fr) 38px;
+    gap: 7px;
+  }
+
+  .score-row strong {
+    font-size: .82rem;
+  }
+
+  .score-track {
+    height: 14px;
+  }
 }
 
 .compare {
@@ -482,10 +533,9 @@ textarea:focus {
 
 .url-box {
   padding: 14px;
-  background: #f8f5ff;
+  background: #f0f9ff;
   border-radius: 15px;
   overflow-wrap: anywhere;
-  margin-bottom: 10px;
 }
 
 .url-box a {
@@ -499,10 +549,14 @@ textarea:focus {
   margin-top: 22px;
 }
 
-@media (max-width: 560px) {
+@media(max-width:560px) {
   .app {
-    width: min(100% - 16px, 760px);
-    padding-top: 0;
+    width: min(100% - 14px, 760px);
+  }
+
+  .brand {
+    margin-left: -7px;
+    margin-right: -7px;
   }
 
   .panel {
@@ -522,32 +576,32 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
+  .question-text {
+    padding-left: 90px;
+    min-height: 76px;
+  }
+
+  .question-text::before {
+    width: 76px;
+    height: 66px;
+    font-size: 1.7rem;
+  }
+
   .choice {
-    padding: 12px;
-    grid-template-columns: minmax(0,1fr) 34px;
+    grid-template-columns: minmax(0,1fr) 44px;
     gap: 8px;
+    padding: 9px 10px;
+    min-height: 68px;
   }
 
-  .choice-text {
-    font-size: .92rem;
+  .heart {
+    width: 40px;
+    height: 40px;
   }
 
-  .score-list {
-    padding: 12px;
-    gap: 12px;
-  }
-
-  .score-row {
-    grid-template-columns: 68px minmax(0,1fr) 38px;
-    gap: 7px;
-  }
-
-  .score-row strong {
-    font-size: .82rem;
-  }
-
-  .score-track {
-    height: 14px;
+  .heart svg {
+    width: 27px;
+    height: 27px;
   }
 }
 
@@ -556,8 +610,7 @@ textarea:focus {
     background: white;
   }
 
-  .brand,
-  .result-actions {
+  .brand, .result-actions {
     display: none;
   }
 
@@ -570,83 +623,22 @@ textarea:focus {
     width: 100%;
     padding: 0;
   }
-  
-/* 最初の画面 */
-#start-screen.start-panel {
+}
+/* 質問イラストの表示 */
+.illustration-inner {
+  position: relative;
   width: 100%;
-  max-width: 360px;
-  margin: 0 auto;
-  padding: 0;
+  aspect-ratio: 1.5 / 1;
+  min-height: 200px;
   overflow: hidden;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  border-radius: 24px;
+  background: #f5faff;
 }
 
-/* スタート画像を縦長のまま表示 */
-.start-image {
+.question-image {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
-}
-
-/* スマートフォンでの表示 */
-.app {
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-body {
-  margin: 0;
-}
-
-/* 最初の画面を中央に大きく表示 */
-#start-screen.start-panel {
-  display: block;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 420px;
-  min-height: 0;
-  margin: 0 auto;
-  padding: 0;
-  overflow: hidden;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-/* 画像全体を表示する */
-#start-screen .start-image {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  margin: 0 auto;
-  object-fit: contain;
-}
-
-/* アプリ全体の余白をなくす */
-body {
-  margin: 0;
-}
-
-.app {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-/* スタート画面では以前のイラスト枠を表示しない */
-#start-screen .illustration-frame,
-#start-screen .illustration-inner {
-  display: none;
-}
-
-
+  object-position: center;
 }
