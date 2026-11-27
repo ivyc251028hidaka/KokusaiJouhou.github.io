@@ -1,99 +1,720 @@
+<div class="start-image-area">
+  <img src="images/start.png" alt="ボランティア診断のイラスト">
+</div>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#fff4f7">
+<meta name="theme-color" content="#e5f5ff">
 <title>ボランティア診断</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+:root {
+  --blue: #83c8ee;
+  --pink: #f18eaf;
+  --purple: #c9b5ed;
+  --ink: #4d5872;
+  --muted: #7e8ba1;
+  --line: #d8eaf5;
+  --paper: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Yu Gothic", "Meiryo", sans-serif;
+  line-height: 1.7;
+  background: linear-gradient(180deg, #dff4ff, #fffdf8 260px);
+}
+
+button, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  width: min(100% - 24px, 760px);
+  margin: auto;
+  padding-bottom: 45px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ヘッダー */
+
+.brand {
+  text-align: center;
+  padding: 22px 10px 18px;
+}
+
+.brand-mark {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  border-radius: 50%;
+  background: white;
+  color: #ef91b5;
+  font-size: 30px;
+  box-shadow: 0 3px 10px #8ebbd522;
+}
+
+.brand h1 {
+  margin: 5px 0 0;
+  font-size: 1.7rem;
+  color: #459bd0;
+}
+
+.brand p {
+  margin: 0;
+  color: #719bb5;
+  font-size: .9rem;
+}
+
+/* 画面共通 */
+
+.panel {
+  padding: clamp(17px, 4vw, 30px);
+  background: #ffffffed;
+  border-radius: 25px;
+  box-shadow: 0 8px 25px #739ab51c;
+  border: 1px solid #e5f0f6;
+}
+
+h2 {
+  font-size: clamp(1.15rem, 3.5vw, 1.45rem);
+  line-height: 1.55;
+  margin: 0 0 16px;
+}
+
+.hint, .small {
+  color: var(--muted);
+  font-size: .84rem;
+}
+
+.note {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #fff5f9;
+  color: #806b78;
+  font-size: .88rem;
+}
+
+/* 画像スペース */
+
+.image-frame {
+  width: min(100%, 430px);
+  margin: 16px auto 22px;
+  padding: 5px;
+  border-radius: 25px;
+  background: linear-gradient(
+    135deg,
+    #f2a5c2,
+    #c9b5f4,
+    #a9ddc4
+  );
+  box-shadow: 0 6px 16px #987da522;
+}
+
+/*
+  画像は必ず全体を表示する。
+  cover は使わず contain にすることで、
+  拡大による切り抜きを防ぐ。
+*/
+
+.image-area {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  min-height: 180px;
+  max-height: 390px;
+  overflow: hidden;
+  border-radius: 21px;
+  background:
+    radial-gradient(circle at 20% 20%, #fff, transparent 45%),
+    linear-gradient(145deg, #fff8f7, #f3f1ff, #f0fbf4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.image-area img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  position: relative;
+  z-index: 1;
+}
+
+.image-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #8495a8;
+  text-align: center;
+  padding: 15px;
+}
+
+.image-placeholder .emoji {
+  font-size: 3.8rem;
+  line-height: 1.3;
+}
+
+.image-placeholder small {
+  margin-top: 8px;
+  font-size: .8rem;
+}
+
+.image-caption {
+  text-align: center;
+  font-size: .88rem;
+  color: #71879a;
+  margin: -9px 0 19px;
+}
+
+/* 質問画面 */
+
+.eyebrow {
+  display: flex;
+  justify-content: space-between;
+  color: #459bd0;
+  font-weight: 700;
+  font-size: .9rem;
+}
+
+.progress {
+  height: 12px;
+  background: #eaf4fa;
+  border-radius: 99px;
+  overflow: hidden;
+  margin: 10px 0 22px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #65b9e9, #c4b0ed);
+  transition: width .2s;
+}
+
+.question-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 12px;
+}
+
+.question-number {
+  flex: 0 0 58px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: #78bfe7;
+  color: white;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.question-heading h2 {
+  margin: 0;
+}
+
+/* 選択肢 */
+
+.choices {
+  display: grid;
+  gap: 11px;
+}
+
+.choice {
+  width: 100%;
+  min-height: 62px;
+  padding: 12px 15px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 38px;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  color: var(--ink);
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 17px;
+  transition: .18s;
+}
+
+.choice:hover {
+  border-color: #efb2c8;
+}
+
+.choice.selected {
+  border-color: #f18eaf;
+  background: #fff4f8;
+}
+
+.choice-text {
+  font-size: .96rem;
+  overflow-wrap: anywhere;
+}
+
+.choice.selected .choice-text {
+  font-weight: 700;
+}
+
+.heart {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+}
+
+.heart svg {
+  width: 31px;
+  height: 31px;
+}
+
+.heart path {
+  fill: transparent;
+  stroke: #34343a;
+  stroke-width: 1.8;
+}
+
+.choice.selected .heart path {
+  fill: #f18eaf;
+  stroke: #d85f8a;
+}
+
+/* ボタン */
+
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 23px;
+}
+
+.btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 11px 21px;
+  font-weight: 700;
+}
+
+.btn-primary {
+  color: white;
+  background: linear-gradient(110deg, #65b8e9, #b99de9);
+  box-shadow: 0 5px 13px #8ab8d633;
+}
+
+.btn-primary:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  color: #5f7488;
+  background: #edf6fb;
+}
+
+/* Q13 */
+
+.interest-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.interest-option {
+  min-height: 85px;
+  padding: 12px;
+  text-align: left;
+  color: var(--ink);
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 15px;
+}
+
+.interest-option.selected {
+  border-color: #f18eaf;
+  background: #fff2f7;
+}
+
+.interest-option span {
+  display: block;
+  font-size: 1.4rem;
+}
+
+textarea {
+  width: 100%;
+  min-height: 95px;
+  padding: 13px;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  resize: vertical;
+}
+
+/* 結果画面 */
+
+.result-title {
+  color: #459bd0;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  margin: 0;
+}
+
+.result-sub {
+  color: var(--muted);
+}
+
+.result-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(210px, .95fr);
+  gap: 20px;
+  align-items: center;
+}
+
+.result-character {
+  min-height: 170px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #e5f7ff, #fff1f7, #f7f8dc);
+  display: grid;
+  place-items: center;
+  font-size: 5rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  margin: 25px 0 10px;
+}
+
+.feature-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.feature-list li {
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: #eff8ff;
+  font-size: .9rem;
+}
+
+/* 点数グラフ */
+
+.score-list {
+  display: grid;
+  gap: 12px;
+  padding: 15px;
+  border-radius: 17px;
+  background: #f8fbff;
+}
+
+.score-row {
+  display: grid;
+  grid-template-columns: 75px minmax(0, 1fr) 42px;
+  gap: 9px;
+  align-items: center;
+  font-size: .87rem;
+}
+
+.score-track {
+  height: 15px;
+  background: #e8e8f0;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.score-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #f18eaf, #b99ae8);
+  border-radius: 99px;
+}
+
+.score-value {
+  text-align: right;
+  font-weight: 700;
+}
+
+/* 比較 */
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.compare-card {
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: white;
+}
+
+.compare-card h4 {
+  margin: 0 0 7px;
+  color: #d96c94;
+}
+
+.compare-card p {
+  margin: 0;
+  font-size: .93rem;
+}
+
+.url-box {
+  padding: 14px;
+  background: #f5f8ff;
+  border-radius: 15px;
+  overflow-wrap: anywhere;
+}
+
+.url-box a {
+  color: #8063b0;
+}
+
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+@media(max-width:560px) {
+  .app {
+    width: min(100% - 16px, 760px);
+  }
+
+  .panel {
+    padding: 16px 13px;
+  }
+
+  .result-top {
+    grid-template-columns: 1fr;
+  }
+
+  .compare {
+    grid-template-columns: 1fr;
+  }
+
+  .choice {
+    grid-template-columns: minmax(0, 1fr) 34px;
+    padding: 11px;
+  }
+
+  .image-area {
+    max-height: 300px;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+
+  .brand, .result-actions {
+    display: none;
+  }
+
+  .panel {
+    box-shadow: none;
+  }
+}
+</style>
 </head>
+
 <body>
+
 <main class="app">
+
 <header class="brand">
-  <div class="brand-mark" aria-hidden="true">♡</div>
+  <div class="brand-mark">♡</div>
   <h1>ボランティア診断</h1>
   <p>あなたの「人を助ける気質」を見つけよう</p>
 </header>
 
+<!-- 最初の画面 -->
+
 <section id="start-screen" class="panel">
+
   <h2>あなたに合うボランティアを見つけてみよう！</h2>
-  <div class="illustration-frame">
-    <div class="illustration-inner">
-      <div class="scene-emoji">🤝🌷</div>
-      <div class="scene-label">あなたらしい助け方を見つけよう</div>
+
+  <div class="image-frame">
+    <div class="image-area">
+      <div class="image-placeholder">
+        <span class="emoji">🤝🌷</span>
+        <small>最初の画面の画像</small>
+      </div>
+      <img src="images/start.png"
+           alt="ボランティア診断のメインイラスト"
+           onerror="this.style.display='none'">
     </div>
   </div>
-  <p>日常の中で、あなたがどんなふうに人を助けることが多いかをもとに診断するよ。正解・不正解はないので、いつもの自分に近いものを選んでね。</p>
-  <p class="hint">全12問＋やってみたいボランティアについての質問1問です。最後の質問は診断の点数には入りません。</p>
+
+  <p>
+    日常の中で、あなたがどんなふうに人を助けることが多いかをもとに診断するよ。
+    正解・不正解はないので、いつもの自分に近いものを選んでね。
+  </p>
+
+  <p class="hint">
+    全12問＋やってみたいボランティアについての質問1問です。
+    最後の質問は診断の点数には入りません。
+  </p>
+
   <div class="nav-row" style="justify-content:flex-end">
-    <button class="btn btn-primary" id="start-btn">診断をはじめる →</button>
+    <button class="btn btn-primary" id="start-btn">
+      診断をはじめる →
+    </button>
   </div>
+
 </section>
 
+<!-- 質問画面 -->
+
 <section id="quiz-screen" class="panel hidden">
+
   <div class="eyebrow">
     <span id="step-label">Q1 / 12</span>
     <span id="step-percent">8%</span>
   </div>
-  <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
-  <h2 id="question-text"></h2>
-  <div class="illustration-frame">
-    <div class="illustration-inner" id="illustration-inner">
-      <div class="scene-emoji" id="scene-emoji">🧑‍🤝‍🧑</div>
-      <div class="scene-label" id="scene-label">この質問のイラスト</div>
+
+  <div class="progress">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+
+  <div class="question-heading">
+    <div class="question-number" id="question-number">Q1</div>
+    <h2 id="question-text"></h2>
+  </div>
+
+  <div class="image-frame">
+    <div class="image-area" id="question-image-area">
+      <div class="image-placeholder" id="question-placeholder">
+        <span class="emoji">🧑‍🤝‍🧑</span>
+        <small>質問のイラスト</small>
+      </div>
+      <img id="question-image" src="" alt="">
     </div>
   </div>
+
+  <p class="image-caption" id="scene-label"></p>
+
   <div class="choices" id="choices"></div>
-  <p class="hint">選択肢を押すと、右側のハートがピンクになるよ。</p>
+
+  <p class="hint">
+    あなたに一番近いと思う答えを選んでね。
+  </p>
+
   <div class="nav-row">
     <button class="btn btn-ghost" id="back-btn">← もどる</button>
     <button class="btn btn-primary" id="next-btn" disabled>次へ →</button>
   </div>
+
 </section>
 
+<!-- Q13 -->
+
 <section id="interest-screen" class="panel hidden">
-  <div class="eyebrow"><span>Q13 / 13</span><span>採点外</span></div>
-  <div class="progress"><div class="progress-fill" style="width:100%"></div></div>
+
+  <div class="eyebrow">
+    <span>Q13 / 13</span>
+    <span>採点外</span>
+  </div>
+
+  <div class="progress">
+    <div class="progress-fill" style="width:100%"></div>
+  </div>
+
   <h2>あなたがやってみたいボランティアはありますか？</h2>
-  <p class="note">※こちらの質問は診断結果には含まれません。あなたのやりたいことと気質の傾向を比べるための参考にします。</p>
+
+  <p class="note">
+    ※こちらの質問は診断結果には含まれません。
+    あなたのやりたいことと気質の傾向を比べるための参考にします。
+  </p>
+
   <div class="interest-grid" id="interest-grid"></div>
-  <label for="interest-note" style="display:block;margin:17px 0 7px;font-weight:700">ほかにやってみたいこと（任意）</label>
+
+  <label for="interest-note" style="display:block;margin:17px 0 7px;font-weight:700">
+    ほかにやってみたいこと（任意）
+  </label>
+
   <textarea id="interest-note" placeholder="例：地域のお祭りの準備をしてみたい"></textarea>
+
   <div class="nav-row">
     <button class="btn btn-ghost" id="interest-back-btn">← もどる</button>
     <button class="btn btn-primary" id="show-result-btn">診断結果を見る →</button>
   </div>
+
 </section>
 
+<!-- 結果画面 -->
+
 <section id="result-screen" class="panel hidden">
-  <div class="eyebrow"><span>診断結果</span><span>あなたの気質タイプ</span></div>
+
+  <div class="eyebrow">
+    <span>診断結果</span>
+    <span>あなたの気質タイプ</span>
+  </div>
+
   <div class="result-top">
+
     <div>
       <h2 class="result-title" id="result-title"></h2>
       <p class="result-sub" id="result-type-name"></p>
       <p id="result-description"></p>
       <div class="result-character" id="result-character"></div>
     </div>
+
     <div>
       <h3 class="section-title" style="margin-top:0">タイプ別スコア</h3>
-      <canvas id="radar-chart" width="440" height="400" aria-label="ボランティアの種類ごとのレーダーチャート" style="width:100%;height:auto"></canvas>
-      <p class="small">種類の名前を短く表示しています。点数が高いほど、その活動に関係する傾向が強めです。</p>
+      <canvas id="radar-chart"
+              width="440"
+              height="400"
+              style="width:100%;height:auto">
+      </canvas>
+      <p class="small">
+        点数が高いほど、その活動に関係する傾向が強めです。
+      </p>
     </div>
+
   </div>
 
   <h3 class="section-title">あるとよい能力・向いている人の特徴</h3>
   <ul class="feature-list" id="feature-list"></ul>
 
   <h3 class="section-title">結果のポイント配分</h3>
-  <p class="small">Q1〜Q12は、選んだ回答に設定されたタイプに1点を加算します。Q13は採点されません。</p>
+  <p class="small">
+    Q1〜Q12の回答ごとに、対応するカテゴリーへ1点加算しています。
+    Q13は採点されません。
+  </p>
   <div class="score-list" id="score-list"></div>
 
   <h3 class="section-title">あなたの「やりたい」とおすすめ</h3>
+
   <div class="compare">
     <div class="compare-card">
       <h4>あなたのやりたい</h4>
       <p id="interest-result"></p>
     </div>
+
     <div class="compare-card">
       <h4>気質から見たおすすめ</h4>
       <p id="recommended-result"></p>
@@ -101,23 +722,961 @@
   </div>
 
   <h3 class="section-title">ボランティアを探してみよう</h3>
+
   <div class="url-box">
-    <p style="margin:0 0 5px">ボランティア情報の探し方や募集先は、地域によって異なります。</p>
-    <a href="https://www.n-volunteer.jp/" target="_blank" rel="noopener noreferrer">全国社会福祉協議会「ボランティア・市民活動」関連情報を探す</a>
+    <p>地域のボランティア情報を探すことができます。</p>
+    <a href="https://www.n-volunteer.jp/"
+       target="_blank"
+       rel="noopener noreferrer">
+      全国のボランティア情報を探す
+    </a>
   </div>
 
-  <h3 class="section-title" id="type-links-heading">この診断結果に合う活動をもっと詳しく知る</h3>
-  <p id="type-links-intro">あなたの診断タイプに合わせた活動紹介ページだよ。</p>
+  <h3 class="section-title">この診断結果に合う活動をもっと詳しく知る</h3>
+  <p id="type-links-intro"></p>
   <div id="type-links"></div>
-  <p class="small">※リンク先は外部サイトです。活動内容や募集条件は、リンク先で確認してください。</p>
+
+  <p class="small">
+    ※リンク先は外部サイトです。活動内容や募集条件は、リンク先で確認してください。
+  </p>
 
   <div class="result-actions">
     <button class="btn btn-primary" id="restart-btn">もう一度診断する ↻</button>
     <button class="btn btn-ghost" id="print-btn">結果を印刷する</button>
   </div>
+
 </section>
+
 </main>
 
-<script src="app.js" defer></script>
+<script>
+
+/* =================================
+   質問データ
+================================= */
+
+const questions = [
+
+{
+text:"友達がたくさんの荷物を持って歩いています。あなたならどうする？",
+scene:"images/q1.png",
+label:"荷物を持っている友達",
+choices:[
+"自分から声をかけて、一緒に運ぶ",
+"すぐに手伝い始める",
+"何を持てばいいか聞いて、手伝う",
+"相手が大変そうか様子を見てから声をかける"
+]
+},
+
+{
+text:"友達が学校のことで悩んでいると話してきました。あなたならどうする？",
+scene:"images/q2.png",
+label:"悩みを話す友達",
+choices:[
+"身近な環境を教えたり、気分転換できる方法を提案する",
+"「こうしてみたら？」と伝える",
+"悩みを整理して、一つずつ考える",
+"相手が少しでも安心できるように話を聞く"
+]
+},
+
+{
+text:"グループで作業をしていて、一人だけ作業が遅れています。あなたならどうする？",
+scene:"images/q3.png",
+label:"みんなで取り組む作業",
+choices:[
+"「一緒にやろう」と声をかける",
+"自分ができる作業を見つけて、すぐに手伝う",
+"アドバイスを考える",
+"その人が困っていることを聞いてから手伝う"
+]
+},
+
+{
+text:"学校に転校生が来た。周りになじめるために、あなたならどうする？",
+scene:"images/q4.png",
+label:"転校してきた人",
+choices:[
+"自分から話しかけて、みんなの輪に誘う",
+"楽しめそうなことに誘って、一緒に過ごす",
+"学校のことやルールを分かりやすく教える",
+"その人のペースに合わせながら関わりを持つ"
+]
+},
+
+{
+text:"家族が忙しそうにしているとき、あなたはどうすることが多い？",
+scene:"images/q5.png",
+label:"忙しそうな家族",
+choices:[
+"兄弟の面倒を進んで見る",
+"インターホンの対応をする",
+"やることを整理して、効率よく進める",
+"優先順位を考えて、手伝う"
+]
+},
+
+{
+text:"友達が勉強で分からないところがあると言っています。あなたならどうする？",
+scene:"images/q6.png",
+label:"勉強で困っている友達",
+choices:[
+"隣で一緒に問題を解いてみる",
+"ゲームや例えを使って楽しく教える",
+"どこが分からないのか確認して、説明する",
+"相手のペースに合わせてゆっくり教える"
+]
+},
+
+{
+text:"みんなで地域のイベントの準備をしています。作業がなかなか進みません。あなたならどうする？",
+scene:"images/q7.png",
+label:"地域イベントの準備",
+choices:[
+"「みんなでやろう！」と声をかけて働き始める",
+"楽しくできる方法を考えて、みんなを盛り上げる",
+"やることを書き出して、順番に進める",
+"それぞれが無理なくできる仕事を考える"
+]
+},
+
+{
+text:"電車やバスで、年配の人が立っています。席が空いたらどうする？",
+scene:"images/q8.png",
+label:"バスや電車の座席",
+choices:[
+"「どうぞ」と声をかける",
+"すぐに立って席を譲る",
+"相手が笑顔になれるように、明るく優しく声をかける",
+"必要か様子を見てから声をかける"
+]
+},
+
+{
+text:"学校で友達がみんなの前で発表することになり、前日に「緊張する」と相談してきた。あなたならどうする？",
+scene:"images/q9.png",
+label:"発表を前に緊張する友達",
+choices:[
+"「大丈夫！」と声をかけて元気づける",
+"一緒に練習して発表を盛り上げる",
+"内容を一緒に整理する",
+"気持ちを聞いて落ち着けるようにする"
+]
+},
+
+{
+text:"友達の誕生日会をみんなで準備することになりました。あなたは何をする？",
+scene:"images/q10.png",
+label:"誕生日会の準備",
+choices:[
+"みんなに声をかけて、準備を進める",
+"サプライズや楽しい企画を考える",
+"ゴミを減らせる飾りや、繰り返し使える道具を選ぶ",
+"外国の料理や遊びを紹介して、みんなで楽しめるようにする"
+]
+},
+
+{
+text:"友達と街を歩いていて、道に迷っている人を見かけました。あなたならどうする？",
+scene:"images/q11.png",
+label:"道に迷っている人",
+choices:[
+"道案内の看板や周辺の様子を確認し、分かりやすい道を探す",
+"一緒に地図を見ながら目的地を探す",
+"場所や行き方を調べて、分かりやすく説明する",
+"相手が困っている様子を見ながら、必要なら声をかける"
+]
+},
+
+{
+text:"誰かのために何かをするとき、あなたはどんなことを大切にする？",
+scene:"images/q12.png",
+label:"誰かを思いやる気持ち",
+choices:[
+"自然や環境を大切にし、みんなが気持ちよく過ごせる場所を作ること",
+"相手が楽しんだり、笑顔になったりすること",
+"必要なことを整理して、役に立つこと",
+"相手の気持ちや状況を考えて行動すること"
+]
+}
+
+];
+
+
+/* =================================
+   配点
+   左から①②③④
+================================= */
+
+const choiceTypeMap = [
+["A","B","G","H"],
+["E","C","D","H"],
+["A","E","G","C"],
+["A","F","C","H"],
+["B","F","D","G"],
+["C","D","B","H"],
+["A","F","D","H"],
+["F","G","B","H"],
+["A","B","C","H"],
+["A","D","E","F"],
+["E","C","D","F"],
+["E","B","D","H"]
+];
+
+
+/* =================================
+   カテゴリー情報
+================================= */
+
+const types = {
+
+A:{
+name:"活気あふれる街頭・イベントタイプ",
+title:"にぎわい探検家",
+emoji:"🎪",
+description:"人に声をかけたり、みんなを巻き込んだりする行動力が強み。人が集まる場所で、周りと協力しながら活動するのが得意そう。",
+features:["自分から声をかけられる","人と協力して動くのが好き","にぎやかな場所が好き"],
+volunteer:"募金活動、地域のお祭り、スポーツイベントの運営"
+},
+
+B:{
+name:"笑顔を届ける子ども・交流タイプ",
+title:"えがおの応援団",
+emoji:"😊",
+description:"相手が楽しく過ごせることや、笑顔になることを大切にするタイプ。人と関わりながら、場を明るくする活動が向いていそう。",
+features:["人を笑顔にするのが好き","明るく声をかけられる","誰かと一緒に活動するのが好き"],
+volunteer:"子どもの遊び相手、交流会、地域のイベント補助"
+},
+
+C:{
+name:"じっくり支える学習支援タイプ",
+title:"まなびのサポーター",
+emoji:"📚",
+description:"物事を整理し、相手が理解できるように順序立てて支えるのが得意なタイプ。相手のペースに合わせることが活かせそう。",
+features:["順番に整理して考えられる","分かるまで丁寧に説明できる","コツコツ支えるのが好き"],
+volunteer:"学習支援、子どもの勉強サポート、教材づくり"
+},
+
+D:{
+name:"コツコツ形にする事務・クリエイティブタイプ",
+title:"アイデアのつくり手",
+emoji:"💻",
+description:"情報や作業を整理し、必要なものを形にして支えるタイプ。裏方として準備や制作を進める活動で力を発揮できそう。",
+features:["情報を整理するのが得意","細かい作業に集中できる","パソコンや制作に関心がある"],
+volunteer:"チラシ・資料づくり、広報、事務作業、動画制作"
+},
+
+E:{
+name:"地球にやさしい環境・美化タイプ",
+title:"みどりの守り手",
+emoji:"🌱",
+description:"身近なことを丁寧に続け、環境や暮らしをよくすることに力を発揮しそう。自分のペースで取り組める活動も合いそう。",
+features:["自然や環境に関心がある","自分のペースで作業できる","体を動かすことが好き"],
+volunteer:"公園や街の清掃、花壇の手入れ、自然保護活動"
+},
+
+F:{
+name:"文化を伝える地域・国際交流タイプ",
+title:"まちの文化ナビゲーター",
+emoji:"🌏",
+description:"人や地域のことを知り、相手に分かりやすく伝えることが活かせそう。地域の魅力を紹介したり、異なる文化をつなぐ活動に向いていそう。",
+features:["地域の魅力を伝えたい","異なる文化に関心がある","人の話を聞き、伝えるのが好き"],
+volunteer:"地域案内、文化交流、国際交流イベントの補助"
+},
+
+G:{
+name:"災害・復興支援タイプ",
+title:"そなえのサポーター",
+emoji:"🧰",
+description:"状況を見て必要なことを考え、落ち着いて支えることが強みになりそう。安全や準備を意識して、チームで動く活動が向いていそう。",
+features:["状況を見て行動できる","準備や確認を大切にする","困っている人を支えたい"],
+volunteer:"防災イベント、支援物資の整理、復興支援活動"
+},
+
+H:{
+name:"医療・福祉タイプ",
+title:"こころのよりそい手",
+emoji:"🫶",
+description:"相手の気持ちや状態を考え、安心できるように支えるタイプ。相手の話を聞きながら、無理のない形で手助けすることが活かせそう。",
+features:["相手の気持ちを考えられる","話を落ち着いて聞ける","人を支えることに関心がある"],
+volunteer:"福祉施設の交流補助、高齢者との交流、支援団体の活動補助"
+}
+
+};
+
+const shortTypeNames = {
+A:"イベント",
+B:"子ども",
+C:"学習",
+D:"制作",
+E:"環境",
+F:"交流",
+G:"災害",
+H:"医療"
+};
+
+
+/* =================================
+   活動紹介リンク
+================================= */
+
+const typeLinks = {
+
+A:[
+{
+title:"イベント・地域活動のボランティア",
+desc:"スポーツや地域交流の場、イベント運営など、みんなで場をつくる活動の例。",
+url:"https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
+}
+],
+
+B:[
+{
+title:"子どもと関わるボランティア",
+desc:"子どもの遊びやレクリエーション、スポーツ教室などの活動例。",
+url:"https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
+}
+],
+
+C:[
+{
+title:"学習・教育を支えるボランティア",
+desc:"学習ボランティアや教育活動への協力などの活動例。",
+url:"https://csw-kawasaki.or.jp/volunteer-info/volunteer-pr/kind-volunteer/"
+}
+],
+
+D:[
+{
+title:"パソコン・広報などの活動",
+desc:"パソコンの操作支援や広報づくり、技術を活かす活動例。",
+url:"https://csw-kawasaki.or.jp/volunteer-info/volunteer-pr/kind-volunteer/"
+}
+],
+
+E:[
+{
+title:"環境・美化のボランティア",
+desc:"清掃、リサイクル、自然環境を守る活動などの例。",
+url:"https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
+}
+],
+
+F:[
+{
+title:"文化・国際交流のボランティア",
+desc:"伝統文化の継承や外国の人との交流などの活動例。",
+url:"https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
+}
+],
+
+G:[
+{
+title:"災害・復興支援のボランティア",
+desc:"支援物資の整理や防災活動などの例。",
+url:"https://www.gov-online.go.jp/article/201909/entry-8761.html"
+}
+],
+
+H:[
+{
+title:"病院ボランティア",
+desc:"病院内の案内や患者さん、ご家族のサポートなどの例。",
+url:"https://www.toyotachiiki-mc.or.jp/volunteer/"
+},
+{
+title:"高齢者・福祉分野の活動",
+desc:"見守りや話し相手、交流の場づくりなどの活動例。",
+url:"https://www.sapporo-shakyo.or.jp/activities/volunteer/activities/index.html"
+}
+]
+
+};
+
+
+/* =================================
+   Q13の選択肢
+================================= */
+
+const interestOptions = [
+{type:"A",emoji:"🎪",text:"イベント運営・会場づくり"},
+{type:"B",emoji:"😊",text:"子どもと遊ぶ・人と交流する"},
+{type:"C",emoji:"📚",text:"勉強や学習をサポートする"},
+{type:"D",emoji:"💻",text:"チラシ・資料・動画などをつくる"},
+{type:"E",emoji:"🌱",text:"公園や街をきれいにする"},
+{type:"F",emoji:"🌏",text:"地域文化・国際交流に関わる"},
+{type:"G",emoji:"🧰",text:"防災や災害復興を支える"},
+{type:"H",emoji:"🫶",text:"高齢者や支援が必要な人と関わる"}
+];
+
+
+/* =================================
+   状態管理
+================================= */
+
+let currentIndex = 0;
+const answers = Array(questions.length).fill(null);
+let selectedInterest = null;
+
+const $ = id => document.getElementById(id);
+
+function showScreen(id) {
+  ["start-screen","quiz-screen","interest-screen","result-screen"]
+    .forEach(screen => {
+      $(screen).classList.toggle("hidden", screen !== id);
+    });
+
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+
+/* =================================
+   画像表示
+================================= */
+
+function showQuestionImage(question) {
+
+  const img = $("question-image");
+  const placeholder = $("question-placeholder");
+
+  img.style.display = "block";
+  img.src = question.scene;
+  img.alt = question.label;
+
+  placeholder.style.display = "none";
+
+  img.onerror = function() {
+    img.style.display = "none";
+    placeholder.style.display = "flex";
+    placeholder.querySelector("small").textContent =
+      "画像が見つかりません：" + question.scene;
+  };
+
+  $("scene-label").textContent = question.label;
+}
+
+
+/* =================================
+   質問表示
+================================= */
+
+function renderQuestion() {
+
+  const q = questions[currentIndex];
+
+  $("step-label").textContent =
+    `Q${currentIndex + 1} / ${questions.length}`;
+
+  $("step-percent").textContent =
+    `${Math.round((currentIndex + 1) / questions.length * 100)}%`;
+
+  $("progress-fill").style.width =
+    `${(currentIndex + 1) / questions.length * 100}%`;
+
+  $("question-number").textContent = `Q${currentIndex + 1}`;
+  $("question-text").textContent = q.text;
+
+  showQuestionImage(q);
+
+  $("choices").innerHTML = "";
+
+  q.choices.forEach((choice,index) => {
+
+    const button = document.createElement("button");
+
+    button.type = "button";
+
+    button.className =
+      "choice" + (answers[currentIndex] === index ? " selected" : "");
+
+    button.setAttribute(
+      "aria-pressed",
+      answers[currentIndex] === index ? "true" : "false"
+    );
+
+    button.innerHTML = `
+      <span class="choice-text"></span>
+      <span class="heart" aria-hidden="true">
+        <svg viewBox="0 0 32 32">
+          <path d="M16 27s-12-7.3-12-15.1C4 5.2 12.1 3.7 16 10c3.9-6.3 12-4.8 12 1.9C28 19.7 16 27 16 27Z"/>
+        </svg>
+      </span>
+    `;
+
+    button.querySelector(".choice-text").textContent = choice;
+
+    button.addEventListener("click", () => {
+      answers[currentIndex] = index;
+      renderQuestion();
+    });
+
+    $("choices").appendChild(button);
+
+  });
+
+  $("back-btn").disabled = currentIndex === 0;
+
+  $("back-btn").style.opacity =
+    currentIndex === 0 ? ".4" : "1";
+
+  $("next-btn").disabled =
+    answers[currentIndex] === null;
+
+  $("next-btn").textContent =
+    currentIndex === questions.length - 1
+      ? "Q13へ →"
+      : "次へ →";
+}
+
+
+/* =================================
+   Q13表示
+================================= */
+
+function renderInterests() {
+
+  $("interest-grid").innerHTML = "";
+
+  interestOptions.forEach(option => {
+
+    const button = document.createElement("button");
+
+    button.type = "button";
+
+    button.className =
+      "interest-option" +
+      (selectedInterest === option.type ? " selected" : "");
+
+    button.setAttribute(
+      "aria-pressed",
+      selectedInterest === option.type ? "true" : "false"
+    );
+
+    const emoji = document.createElement("span");
+    emoji.textContent = option.emoji;
+
+    const text = document.createElement("div");
+    text.textContent = option.text;
+
+    button.append(emoji,text);
+
+    button.addEventListener("click", () => {
+
+      selectedInterest =
+        selectedInterest === option.type
+          ? null
+          : option.type;
+
+      renderInterests();
+
+    });
+
+    $("interest-grid").appendChild(button);
+
+  });
+
+}
+
+
+/* =================================
+   得点計算
+================================= */
+
+function calculateScores() {
+
+  const scores = {
+    A:0, B:0, C:0, D:0,
+    E:0, F:0, G:0, H:0
+  };
+
+  answers.forEach((answer,questionIndex) => {
+
+    if (answer === null) return;
+
+    const category =
+      choiceTypeMap[questionIndex][answer];
+
+    scores[category] += 1;
+
+  });
+
+  return scores;
+
+}
+
+
+/* =================================
+   診断タイプ決定
+================================= */
+
+function getWinningType(scores) {
+
+  const categories = Object.keys(scores);
+
+  return categories.sort((a,b) => {
+
+    if (scores[b] !== scores[a]) {
+      return scores[b] - scores[a];
+    }
+
+    return categories.indexOf(a) - categories.indexOf(b);
+
+  })[0];
+
+}
+
+
+/* =================================
+   レーダーチャート
+================================= */
+
+function drawRadar(scores) {
+
+  const canvas = $("radar-chart");
+  const ctx = canvas.getContext("2d");
+
+  const width = 440;
+  const height = 400;
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,width,height);
+
+  const keys = Object.keys(scores);
+
+  const cx = width / 2;
+  const cy = height / 2 + 3;
+  const radius = 115;
+
+  const maxScore = Math.max(1,...Object.values(scores));
+  const scale = Math.max(3,Math.ceil(maxScore / 3) * 3);
+
+  function point(index,r) {
+
+    const angle = -Math.PI / 2 + index * 2 * Math.PI / 8;
+
+    return {
+      x: cx + Math.cos(angle) * r,
+      y: cy + Math.sin(angle) * r
+    };
+
+  }
+
+  /* 目盛り */
+
+  for (let ring = 1; ring <= 4; ring++) {
+
+    ctx.beginPath();
+
+    keys.forEach((key,index) => {
+
+      const p = point(index,radius * ring / 4);
+
+      if (index === 0) ctx.moveTo(p.x,p.y);
+      else ctx.lineTo(p.x,p.y);
+
+    });
+
+    ctx.closePath();
+    ctx.strokeStyle = "#e4e6ef";
+    ctx.stroke();
+
+  }
+
+  /* 軸とラベル */
+
+  keys.forEach((key,index) => {
+
+    const p = point(index,radius);
+
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(p.x,p.y);
+    ctx.strokeStyle = "#e4e6ef";
+    ctx.stroke();
+
+    const label = point(index,radius + 27);
+
+    ctx.fillStyle = "#536075";
+    ctx.font = "12px Yu Gothic, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(shortTypeNames[key],label.x,label.y);
+
+  });
+
+  /* 得点の形 */
+
+  ctx.beginPath();
+
+  keys.forEach((key,index) => {
+
+    const p = point(
+      index,
+      radius * scores[key] / scale
+    );
+
+    if (index === 0) ctx.moveTo(p.x,p.y);
+    else ctx.lineTo(p.x,p.y);
+
+  });
+
+  ctx.closePath();
+
+  ctx.fillStyle = "rgba(241,142,175,.3)";
+  ctx.strokeStyle = "#dd789d";
+  ctx.lineWidth = 2.5;
+
+  ctx.fill();
+  ctx.stroke();
+
+  keys.forEach((key,index) => {
+
+    const p = point(
+      index,
+      radius * scores[key] / scale
+    );
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,4,0,Math.PI * 2);
+    ctx.fillStyle = "#dd789d";
+    ctx.fill();
+
+  });
+
+}
+
+
+/* =================================
+   結果画面
+================================= */
+
+function renderResult() {
+
+  const scores = calculateScores();
+  const winner = getWinningType(scores);
+  const type = types[winner];
+
+  $("result-title").textContent = type.title;
+  $("result-type-name").textContent = type.name;
+  $("result-description").textContent = type.description;
+  $("result-character").textContent = type.emoji;
+
+  /* 特徴 */
+
+  $("feature-list").innerHTML = "";
+
+  type.features.forEach(feature => {
+
+    const li = document.createElement("li");
+    li.textContent = feature;
+
+    $("feature-list").appendChild(li);
+
+  });
+
+  /* 得点一覧 */
+
+  $("score-list").innerHTML = "";
+
+  Object.entries(scores).forEach(([key,score]) => {
+
+    const row = document.createElement("div");
+    row.className = "score-row";
+
+    const name = document.createElement("strong");
+    name.textContent = shortTypeNames[key];
+
+    const track = document.createElement("div");
+    track.className = "score-track";
+
+    const bar = document.createElement("div");
+    bar.className = "score-bar";
+
+    const max = Math.max(1,...Object.values(scores));
+
+    bar.style.width = `${score / max * 100}%`;
+
+    track.appendChild(bar);
+
+    const value = document.createElement("span");
+    value.className = "score-value";
+    value.textContent = `${score}点`;
+
+    row.append(name,track,value);
+
+    $("score-list").appendChild(row);
+
+  });
+
+  /* Q13との比較 */
+
+  const selected = interestOptions.find(
+    option => option.type === selectedInterest
+  );
+
+  const note = $("interest-note").value.trim();
+
+  if (selected) {
+
+    $("interest-result").textContent =
+      `${selected.emoji} ${selected.text}` +
+      (note ? `／補足：${note}` : "");
+
+  } else {
+
+    $("interest-result").textContent =
+      note || "まだ選択されていません。";
+
+  }
+
+  $("recommended-result").textContent =
+    `${type.emoji} ${type.name}：${type.volunteer}`;
+
+  /* 活動紹介 */
+
+  $("type-links-intro").textContent =
+    `「${type.name}」に関連する活動の紹介です。${type.volunteer}などの活動があります。`;
+
+  $("type-links").innerHTML = "";
+
+  (typeLinks[winner] || []).forEach(item => {
+
+    const box = document.createElement("div");
+    box.className = "url-box";
+    box.style.marginBottom = "10px";
+
+    const title = document.createElement("strong");
+    title.textContent = item.title;
+
+    const description = document.createElement("p");
+    description.textContent = item.desc;
+
+    const link = document.createElement("a");
+    link.href = item.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "詳しく見る ↗";
+
+    box.append(title,description,link);
+
+    $("type-links").appendChild(box);
+
+  });
+
+  drawRadar(scores);
+
+  showScreen("result-screen");
+
+}
+
+
+/* =================================
+   ボタン操作
+================================= */
+
+$("start-btn").addEventListener("click",() => {
+
+  currentIndex = 0;
+
+  renderQuestion();
+
+  showScreen("quiz-screen");
+
+});
+
+
+$("back-btn").addEventListener("click",() => {
+
+  if (currentIndex > 0) {
+
+    currentIndex--;
+
+    renderQuestion();
+
+  }
+
+});
+
+
+$("next-btn").addEventListener("click",() => {
+
+  if (answers[currentIndex] === null) return;
+
+  if (currentIndex < questions.length - 1) {
+
+    currentIndex++;
+
+    renderQuestion();
+
+  } else {
+
+    renderInterests();
+
+    showScreen("interest-screen");
+
+  }
+
+});
+
+
+$("interest-back-btn").addEventListener("click",() => {
+
+  currentIndex = questions.length - 1;
+
+  renderQuestion();
+
+  showScreen("quiz-screen");
+
+});
+
+
+$("show-result-btn").addEventListener("click",renderResult);
+
+
+$("restart-btn").addEventListener("click",() => {
+
+  currentIndex = 0;
+
+  answers.fill(null);
+
+  selectedInterest = null;
+
+  $("interest-note").value = "";
+
+  showScreen("start-screen");
+
+});
+
+
+$("print-btn").addEventListener("click",() => {
+
+  window.print();
+
+});
+
+
+window.addEventListener("resize",() => {
+
+  if (!$("result-screen").classList.contains("hidden")) {
+
+    drawRadar(calculateScores());
+
+  }
+
+});
+
+
+/* 初期表示 */
+
+showScreen("start-screen");
+
+</script>
+
 </body>
 </html>
