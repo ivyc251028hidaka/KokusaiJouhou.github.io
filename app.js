@@ -6,7 +6,7 @@
 const questions = [
   {
     text: "友達がたくさんの荷物を持って歩いています。あなたならどうする？",
-    illustration: "images/q1.jpg",
+    illustration: "images/Q1.png",
     label: "荷物を持っている友達",
     choices: [
       { text: "他の人にも声をかけて、一緒に運ぶ", type: "A", score: 1 },
