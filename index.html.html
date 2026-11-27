@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#43A9A0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ボランティア診断">
+  <meta name="description" content="日常の行動から、自分に合うボランティアのタイプを見つける診断アプリ">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Font Awesome -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <title>ボランティア診断</title>
+</head>
+
+<body>
+
+  <main class="app-shell">
+
+    <!-- ホーム画面 -->
+    <section id="homeScreen" class="screen active">
+
+      <div class="hero-card">
+
+        <div class="hero-image-wrap">
+          <img
+            src="images/hero-sample.png"
+            class="replaceable-img"
+            alt="ボランティア診断のイメージ"
+          >
+        </div>
+
+        <p class="eyebrow">VOLUNTEER DIAGNOSIS</p>
+
+        <h1>
+          あなたに合う<br>
+          <span>ボランティア</span>を見つけよう
+        </h1>
+
+        <p class="lead">
+          普段の行動から、あなたの気質に合うボランティアタイプを診断します。
+        </p>
+
+        <button id="startBtn" class="primary-btn">
+          診断をはじめる
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- 診断画面 -->
+    <section id="quizScreen" class="screen">
+
+      <div class="quiz-header">
+
+        <button id="backBtn" class="icon-btn" aria-label="前の画面へ">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+
+        <div class="progress-area">
+
+          <div class="progress-label">
+            <span>質問</span>
+            <strong id="questionNumber">1 / 12</strong>
+          </div>
+
+          <div class="progress-track">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="question-card">
+
+        <span id="questionTag" class="question-tag">
+          Q1
+        </span>
+
+        <h2 id="questionText"></h2>
+
+        <div id="choices" class="choices"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- やってみたいボランティア -->
+    <section id="interestScreen" class="screen">
+
+      <div class="result-top">
+
+        <span class="question-tag">
+          最後の質問・採点外
+        </span>
+
+        <h2>
+          あなたが「やってみたい」と思う<br>
+          ボランティアは？
+        </h2>
+
+        <p>
+          これは診断の点数には入りません。
+          気質から見たおすすめと比べるために使います。
+        </p>
+
+      </div>
+
+      <div id="interestChoices" class="interest-grid"></div>
+
+      <button id="showResultBtn" class="primary-btn">
+        診断結果を見る
+        <i class="fa-solid fa-chart-simple"></i>
+      </button>
+
+    </section>
+
+
+    <!-- 結果画面 -->
+    <section id="resultScreen" class="screen">
+
+      <div class="result-card">
+
+        <p class="eyebrow">
+          YOUR RESULT
+        </p>
+
+        <h2>
+          あなたのボランティアタイプ
+        </h2>
+
+        <div id="topType" class="top-type"></div>
+
+        <div class="chart-wrap">
+          <canvas
+            id="radarChart"
+            width="320"
+            height="320"
+            aria-label="8タイプのレーダーチャート"
+          ></canvas>
+        </div>
+
+        <div id="scoreList" class="score-list"></div>
+
+      </div>
+
+
+      <!-- 比較 -->
+      <div class="compare-card">
+
+        <div class="compare-title">
+
+          <i class="fa-solid fa-scale-balanced"></i>
+
+          <div>
+
+            <h3>
+              「向いている」と「やってみたい」を比較
+            </h3>
+
+            <p>
+              あなたの気質と、あなた自身の興味を見比べてみましょう。
+            </p>
+
+          </div>
+
+        </div>
+
+        <div id="compareContent"></div>
+
+      </div>
+
+
+      <div class="result-actions">
+
+        <button id="restartBtn" class="secondary-btn">
+          <i class="fa-solid fa-rotate-right"></i>
+          もう一度診断する
+        </button>
+
+        <button id="shareBtn" class="secondary-btn">
+          <i class="fa-solid fa-share-nodes"></i>
+          結果を共有
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- QRコード画面 -->
+    <section id="qrScreen" class="screen">
+
+      <div class="qr-card">
+
+        <p class="eyebrow">
+          SHARE
+        </p>
+
+        <h2>
+          スマホで開く
+        </h2>
+
+        <p>
+          このページのURLをQRコードにしました。
+          スマホで読み取って開いてください。
+        </p>
+
+        <div class="qr-wrap">
+
+          <img
+            id="qrImage"
+            alt="このアプリを開くQRコード"
+          >
+
+        </div>
+
+        <p id="currentUrl" class="url-text"></p>
+
+        <button id="closeQrBtn" class="secondary-btn">
+          戻る
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script src="app.js"></script>
+
+</body>
+</html>
